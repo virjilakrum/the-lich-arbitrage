@@ -1,0 +1,153 @@
+# The Lich - Default Configuration
+# This file contains the default configuration for the arbitrage bot
+
+[bot]
+name = "the-lich"
+version = "0.1.0"
+environment = "development"
+enabled = true
+
+[network]
+primary_rpc = [
+    "https://api.mainnet-beta.solana.com",
+    "https://solana-api.projectserum.com"
+]
+backup_rpc = [
+    "https://api.mainnet-beta.solana.com"
+]
+websocket_endpoints = [
+    "wss://api.mainnet-beta.solana.com"
+]
+rpc_timeout_ms = 10000
+ws_reconnect_timeout_secs = 5
+max_concurrent_requests = 100
+commitment = "confirmed"
+
+[wallet]
+wallet_type = "Environment"
+env_var_name = "LICH_PRIVATE_KEY"
+encrypted = false
+
+[strategy]
+min_profit_threshold = "0.001"  # 0.1%
+max_slippage_tolerance = "0.002"  # 0.2%
+default_trade_amount = "1000"
+max_trade_amount = "10000"
+min_trade_amount = "100"
+enable_triangular_arbitrage = false
+max_arbitrage_hops = 3
+
+[[strategy.monitored_pairs]]
+base = "SOL"
+quote = "USDC"
+
+[[strategy.monitored_pairs]]
+base = "SOL"
+quote = "USDT"
+
+[[strategy.monitored_pairs]]
+base = "RAY"
+quote = "USDC"
+
+[monitoring]
+log_level = "info"
+log_file = "logs/lich.log"
+json_logging = true
+metrics_interval_secs = 60
+
+[risk]
+max_daily_loss = "1000"
+max_consecutive_failures = 5
+min_sol_balance = "0.1"
+enable_kill_switch = true
+kill_switch_file = ".kill_switch"
+max_position_size_pct = "0.1"  # 10%
+
+# DEX Configurations
+[dexes.raydium]
+dex_type = "Raydium"
+name = "raydium"
+enabled = true
+program_id = "675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8"
+supported_pairs = ["SOL/USDC", "SOL/USDT", "RAY/USDC", "RAY/SOL"]
+
+[dexes.raydium.config]
+amm_program_id = "675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8"
+authority = "5Q544fKrFoe6tsEbD7S8EmxGTJYAKtTVhAW5Q5pge4j1"
+pool_discovery = { type = "OnChain", scan_interval_secs = 300 }
+
+[dexes.raydium.fees]
+trading_fee = 0.0025
+min_fee_lamports = 5000
+
+[dexes.orca]
+dex_type = "Orca"
+name = "orca"
+enabled = true
+program_id = "9W959DqEETiGZocYWCQPaJ6sBmUzgfxXfqGeTEdp3aQP"
+supported_pairs = ["SOL/USDC", "SOL/USDT", "ORCA/USDC", "ORCA/SOL"]
+
+[dexes.orca.config]
+swap_program_id = "9W959DqEETiGZocYWCQPaJ6sBmUzgfxXfqGeTEdp3aQP"
+pool_discovery = { type = "OnChain", scan_interval_secs = 300 }
+
+[dexes.orca.fees]
+trading_fee = 0.003
+min_fee_lamports = 5000
+
+# Token Configurations
+[tokens.SOL]
+symbol = "SOL"
+name = "Solana"
+mint = "So11111111111111111111111111111111111111112"
+decimals = 9
+enabled = true
+token_type = "Native"
+coingecko_id = "solana"
+pyth_price_feed = "H6ARHf6YXhGYeQfUzQNGk6rDNnLBQKrenN712K4AQJEG"
+min_trade_amount = 0.01
+max_trade_amount = 1000.0
+
+[tokens.SOL.metadata]
+
+[tokens.USDC]
+symbol = "USDC"
+name = "USD Coin"
+mint = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
+decimals = 6
+enabled = true
+token_type = "Spl"
+coingecko_id = "usd-coin"
+pyth_price_feed = "Gnt27xtC473ZT2Mw5u8wZ68Z3gULkSTb5DuxJy7eJotD"
+min_trade_amount = 1.0
+max_trade_amount = 100000.0
+
+[tokens.USDC.metadata]
+
+[tokens.USDT]
+symbol = "USDT"
+name = "Tether USD"
+mint = "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"
+decimals = 6
+enabled = true
+token_type = "Spl"
+coingecko_id = "tether"
+pyth_price_feed = "3vxLXJqLqF3JG5TCbYycbKWRBbCJQLxQmBGCkyqEEefL"
+min_trade_amount = 1.0
+max_trade_amount = 100000.0
+
+[tokens.USDT.metadata]
+
+[tokens.RAY]
+symbol = "RAY"
+name = "Raydium"
+mint = "4k3Dyjzvzp8eMZWUXbBCjEvwSkkk59S5iCNLY3QrkX6R"
+decimals = 6
+enabled = true
+token_type = "Spl"
+coingecko_id = "raydium"
+pyth_price_feed = "AnLf8tVYCM816gmBjiy8n53eXKKEDydT5piYjjQDPgTB"
+min_trade_amount = 1.0
+max_trade_amount = 10000.0
+
+[tokens.RAY.metadata]
